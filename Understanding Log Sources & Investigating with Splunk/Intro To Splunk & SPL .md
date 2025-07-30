@@ -1,4 +1,4 @@
-# Giới thiệu về Splunk và SPL
+# Giới thiệu về Splunk và SPL - HackTheBox Academy
 ## Splunk là gì?
 Splunk là phần mềm phân tích dữ liệu mạnh mẽ, có khả năng mở rộng cao, linh hoạt và có thể thu thập, lập index, phân tích và trực quan hóa lượng dữ liệu khổng lồ. Splunk có khả năng hỗ trợ rộng lớn bao gồm như bao mật mạng , pipeline dữ liệu, giám sát CNTT, khả năng quan sát cũng như quản lý CNTT và doanh nghiệp nói chung
 ## Kiến trúc Spunk
@@ -18,10 +18,71 @@ Splunk là phần mềm phân tích dữ liệu mạnh mẽ, có khả năng m�
 Splunk hỗ trợ phân tích dữ liệu theo thời gian thực và lịch sử, giám sát an toàn mạng, phản ứng sự cố và threat hunting
 ## SPL (Search Processing Language)
 SQL là ngôn ngữ cơ sở để phân tích dữ liệu trong Splunk. Nó là backbone cho việc tìm kiếm, lọc, trực quan hóa dữ liệu
+### 1.Basic Searching
+```spl
+search index = "main" "UNKNOWN"
+```
+### 2. Fields and Comparsion Operators
+```spl
+index="main" EventCode!=1
+```
+### 3. The fields command
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | fields -User
+```
+### 4. The table command
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | table _time, host, Image
+```
+_time: timestamp of the eveent
+host : the name of the host where the event occured
+Image: name of executable file that represents the process
+### 5. The rename command
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | rename Image as Process 
+```
+### 6. The dedup command
+removes duplicate events
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | dedup Image
+```
+### 7. The sort 
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | sort - _time
+```
+### 8. The stats command
+```spl
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=3 | stats count by _time, Image
+```
+statiscal operations
+### 9. chart command
+create a data visualization based on statiscal operations
+```
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=3 | chart count by _time, Image
+```
+### 10. eval command
+creates or redefined fields
+```
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | eval Process_Path=lower(Image)
+```
+### 11. The rex command
+extracts new fields from existing ones using regular expressions
+```
+	index="main" EventCode=4662 | rex max_match=0 "[^%](?<guid>{.*})" | table guid
+```
+### 12. The lookup command
+Enriches data with external sources
+```
+index="main" sourcetype="WinEventLog:Sysmon" EventCode=1 | rex field=Image "(?P<filename>[^\\\]+)$" | eval filename=lower(filename) | lookup malware_lookup.csv filename OUTPUTNEW is_malware | table filename, is_malware
+```
+### Time range
+earliest and latest 
+```
+index="main" earliest=-7d EventCode!=1
 
+```
 
-
-### 1.Tìm tài khoản có số lượng yêu cầu Kerberos authentication ticket nhiều nhất
+### Câu 1.Tìm tài khoản có số lượng yêu cầu Kerberos authentication ticket nhiều nhất
 
 
 
@@ -50,7 +111,7 @@ index=* sourcetype="WinEventLog:Security" EventCode=4768 | stats count by Accoun
 
 ---
 
-### 2. Tìm số lượng máy tính mà tài khoản SYSTEM đã truy cập qua các sự kiện 4624
+### Câu 2. Tìm số lượng máy tính mà tài khoản SYSTEM đã truy cập qua các sự kiện 4624
 
 **Mục tiêu**: Tìm số lượng máy tính mà tài khoản SYSTEM đã truy cập.
 
@@ -86,7 +147,7 @@ Kết quả sẽ hiển thị số lượng máy tính mà tài khoản SYSTEM �
 ![](images/image2.png)
 ---
 
-### 3. Tìm tài khoản có số lần đăng nhập nhiều nhất trong vòng 10 phút
+### Câu 3. Tìm tài khoản có số lần đăng nhập nhiều nhất trong vòng 10 phút
 
 **Mục tiêu**: Tìm tài khoản có số lần đăng nhập nhiều nhất trong khoảng thời gian 10 phút.
 
