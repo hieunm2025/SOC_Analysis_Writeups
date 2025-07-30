@@ -12,38 +12,14 @@ Chắc chắn rồi\! Dưới đây là hướng dẫn chi tiết và một bài
 
 -----
 
-### **Hướng dẫn Thực hành Bảo mật Phân quyền Thư mục trên Windows**
+### Bảo mật Phân quyền Thư mục trên Windows**
 
 -----
 
 ### **Bước 1: Tạo thư mục chia sẻ `Company Data`**
-
-**Mục tiêu:** Tạo thư    mục gốc sẽ được sử dụng để chia sẻ dữ liệu chung của công ty.
-
-**Công cụ sử dụng:** File Explorer.
-
-**Các bước thực hiện:**
-
-1.  Mở File Explorer.
-2.  Di chuyển đến ổ đĩa `C:`.
-3.  Nhấp chuột phải vào một khoảng trống, chọn **New** \> **Folder**.
-4.  Đặt tên cho thư mục mới là **Company Data** và nhấn Enter.
-
-
-
 -----
 
-### **Bước 2: Tạo thư mục con `HR`**
-
-**Mục tiêu:** Tạo một thư mục con bên trong thư mục chia sẻ để lưu trữ dữ liệu nhạy cảm của phòng Nhân sự (HR).
-
-**Công cụ sử dụng:** File Explorer.
-
-**Các bước thực hiện:**
-
-1.  Mở thư mục `C:\Company Data` đã tạo ở Bước 1.
-2.  Nhấp chuột phải vào một khoảng trống, chọn **New** \> **Folder**.
-3.  Đặt tên cho thư mục mới là **HR** và nhấn Enter.
+### **Bước 2: Tạo thư mục con `HR`** trong thư mục Company Data
 
 
 
@@ -64,7 +40,7 @@ Chắc chắn rồi\! Dưới đây là hướng dẫn chi tiết và một bài
       * **User name:** `Jim`
       * **Password / Confirm password:** Đặt một mật khẩu an toàn (ví dụ: `P@ssw0rd123!`)
       * **Bỏ chọn (Uncheck)** ô **User must change password at next logon**.
-      * Chọn ô **Password never expires** (tùy chọn cho môi trường lab).
+      * Chọn ô **Password never expires** .
 5.  Nhấp **Create**, sau đó nhấp **Close**.
 
 - Tạo người dùng `Jim` để mô phỏng một nhân viên phòng Nhân sự
